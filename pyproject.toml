@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ephios-testplugin"
+version = "0.1.0"
+description = "A plugin to test plugin discovery of ephios"
+authors = ["Felix Rindt <felix@ephios.de>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+ephios = "^0.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.3.0-dev"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry.plugins."ephios.plugins"]
+"ephios_testplugin" = "ephios_testplugin:EphiosPluginMeta"
