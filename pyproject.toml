@@ -16,4 +16,4 @@ requires = ["poetry>=0.3.0-dev"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry.plugins."ephios.plugins"]
-"ephios_testplugin" = "ephios_testplugin:EphiosPluginMeta"
+"ephios-testplugin" = "ephios_testplugin"
