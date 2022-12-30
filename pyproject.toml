@@ -15,4 +15,4 @@ requires = ["poetry>=0.3.0-dev"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry.plugins."ephios.plugins"]
-"ephios-testplugin" = "ephios_testplugin"
+"ephios-testplugin" = "ephios_testplugin.apps.PluginApp"
