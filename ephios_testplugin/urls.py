@@ -1,13 +1,14 @@
 from django.urls import path
-from django.views import View
 
-
-class CrashView(View):
-    def get(self, request):
-        raise Exception("This is a test exception")
-
+from ephios_testplugin.views import CrashView, TestIndexView, TestNotificationsView
 
 app_name = "testplugin"
 urlpatterns = [
-    path("crash/", CrashView.as_view(), name="test_crash"),
+    path("test/", TestIndexView.as_view(), name="test_index"),
+    path("test/crash/", CrashView.as_view(), name="test_crash"),
+    path(
+        "test/notifications/",
+        TestNotificationsView.as_view(),
+        name="test_notifications",
+    ),
 ]

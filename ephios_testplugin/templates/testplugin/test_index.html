@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+    Test Notifications
+{% endblock %}
+
+{% block content %}
+    <h1>{% translate "Test Plugin" %}</h1>
+    <p>
+        {% blocktranslate trimmed %}
+            Congrats, you installed the test plugin.
+            Here are some useful helpers for developing and testing ephios.
+        {% endblocktranslate %}
+    </p>
+    <ul>
+        <li>
+            <a href="{% url "testplugin:test_crash" %}">
+                {% translate "A view that crashes every time" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url "testplugin:test_notifications" %}">
+                {% translate "A view that lets you send notifications" %}
+            </a>
+        </li>
+    </ul>
+{% endblock %}
