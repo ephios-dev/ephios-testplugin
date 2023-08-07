@@ -1,3 +1,6 @@
+from urllib.parse import urljoin
+
+from django.conf import settings
 from django.urls import reverse
 
 from ephios.core.models import Notification
@@ -23,9 +26,16 @@ class TestNotification(AbstractNotificationHandler):
         return notification.data.get("title")
 
     @classmethod
-    def as_plaintext(cls, notification):
+    def get_body(cls, notification):
         return notification.data.get("body")
 
     @classmethod
-    def get_url(cls, notification):
-        return reverse("testplugin:test_notifications")
+    def get_actions(cls, notification):
+        return [
+            (
+                _("Look at test notification"),
+                urljoin(
+                    settings.GET_SITE_URL(), reverse("testplugin:test_notifications")
+                ),
+            )
+        ]

@@ -1,6 +1,11 @@
 from django.urls import path
 
-from ephios_testplugin.views import CrashView, TestIndexView, TestNotificationsView
+from ephios_testplugin.views import (
+    CrashView,
+    TestIndexView,
+    TestNotificationsView,
+    EmailTemplateView,
+)
 
 app_name = "testplugin"
 urlpatterns = [
@@ -11,4 +16,5 @@ urlpatterns = [
         TestNotificationsView.as_view(),
         name="test_notifications",
     ),
+    path("test/email/", EmailTemplateView.as_view(), name="test_email_template"),
 ]

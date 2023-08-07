@@ -1,0 +1,22 @@
+{% load crispy_forms_filters %}
+{% load i18n %}
+
+<form method="get">
+    {{ form }}
+    <button type="submit" name="action" value="eml">.eml</button>
+    {% if email is None %}
+        <button class="btn btn-primary" type="submit">{% translate "Show" %}</button>
+    {% endif %}
+    {% if notification_type %}
+        · {{ notification_type.slug }}
+        · {{ notification_type_class }}
+    {% endif %}
+</form>
+
+{{ email|default_if_none:"" }}
+
+{% if plaintext %}
+    <h5>Plaintext:</h5>
+    <pre>{{ plaintext }}
+</pre>
+{% endif %}
