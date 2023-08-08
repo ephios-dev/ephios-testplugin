@@ -131,7 +131,7 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             response = self.render_to_response(context)
             response._csp_exempt = True
             return response
-        return super().get(request, *args, **kwargs)
+        return super().render_to_response({"form": form})
 
     def as_eml_download(self, context):
         msg = MIMEMultipart("alternative")
@@ -140,7 +140,6 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
         msg["To"] = self.request.user.email
         msg.attach(MIMEText((context["email"]), "html"))
         msg.attach(MIMEText((context["plaintext"]), "plain"))
-
         buffer = io.StringIO()
         gen = email_generator.Generator(buffer)
         gen.flatten(msg)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ephios-testplugin"
-version = "1.2.0"
+version = "1.2.1"
 description = "A plugin to test and develop ephios"
 authors = ["Felix Rindt <felix@ephios.de>"]
 license = "MIT"
