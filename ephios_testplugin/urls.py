@@ -2,9 +2,9 @@ from django.urls import path
 
 from ephios_testplugin.views import (
     CrashView,
+    EmailTemplateView,
     TestIndexView,
     TestNotificationsView,
-    EmailTemplateView,
 )
 
 app_name = "testplugin"

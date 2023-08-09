@@ -1,35 +1,28 @@
 import io
-import tempfile
-from urllib.parse import urljoin
 from email import generator as email_generator
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from urllib.parse import urljoin
 
-from csp.decorators import csp_exempt
 from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponse
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse, reverse_lazy
+from django.utils import lorem_ipsum
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
-from django.views.generic import TemplateView, FormView
-
-from ephios.core.models import Notification, Event, LocalParticipation, Consequence
+from django.views.generic import FormView, TemplateView
+from ephios.core.models import Consequence, Event, LocalParticipation, Notification
 from ephios.core.services.notifications.backends import send_all_notifications
 from ephios.core.services.notifications.types import (
-    NewProfileNotification,
-    NewEventNotification,
-    notification_type_from_slug,
-    ProfileUpdateNotification,
-    ParticipationConfirmedNotification,
-    ResponsibleParticipationRequestedNotification,
-    EventReminderNotification,
     installed_notification_types,
+    notification_type_from_slug,
 )
 from ephios.extra.mixins import StaffRequiredMixin
+
 from ephios_testplugin.notification import TestNotification
 
 
@@ -91,6 +84,18 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             ],
             "event_title": Event.objects.first().title,
             "content": "Remember to wear sunscreen.",
+            "test_subject": lorem_ipsum.sentence(),
+            "test_body": "\n\n".join(
+                [
+                    lorem_ipsum.paragraph(),
+                    f"Now this special paragraph [contains this markdown link where we don't want the text to be broken up](https://example.com/).",
+                    lorem_ipsum.paragraph(),
+                    f"Here is a sentence with some plain link: https://example.com/text-that-should-be-broken-up-at-the-dashes",
+                    lorem_ipsum.paragraph(),
+                    f"https://example.com/somereallylongurlthatjustkeepsgoinganddefinitelydoesnotfitinonelineoftheemailtemplatewhichletsyouinvestigatehowthetemplatebehaveswithlonglinks/?foo=bar&baz=qux",
+                    lorem_ipsum.paragraph(),
+                ]
+            ),
         }
         try:
             data["consequence_id"] = Consequence.objects.first().id
