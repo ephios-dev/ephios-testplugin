@@ -1,10 +1,8 @@
-from urllib.parse import urljoin
-
-from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from ephios.core.models import Notification
 from ephios.core.services.notifications.types import AbstractNotificationHandler
+from ephios.core.templatetags.settings_extras import make_absolute
 
 
 class TestNotification(AbstractNotificationHandler):
@@ -32,8 +30,7 @@ class TestNotification(AbstractNotificationHandler):
         return [
             (
                 _("Look at test notification"),
-                urljoin(
-                    settings.GET_SITE_URL(), reverse("testplugin:test_notifications")
+                make_absolute( reverse("testplugin:test_notifications")
                 ),
             )
         ]

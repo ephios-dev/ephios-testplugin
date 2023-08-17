@@ -1,8 +1,8 @@
 import io
+import logging
 from email import generator as email_generator
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from urllib.parse import urljoin
 
 from django import forms
 from django.conf import settings
@@ -21,10 +21,12 @@ from ephios.core.services.notifications.types import (
     installed_notification_types,
     notification_type_from_slug,
 )
+from ephios.core.templatetags.settings_extras import make_absolute
 from ephios.extra.mixins import StaffRequiredMixin
 
 from ephios_testplugin.notification import TestNotification
 
+logger = logging.getLogger(__name__)
 
 class TestIndexView(StaffRequiredMixin, TemplateView):
     template_name = "testplugin/test_index.html"
@@ -71,8 +73,7 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             "token": default_token_generator.make_token(self.request.user),
             "event_id": Event.objects.first().id,
             "participation_id": LocalParticipation.objects.first().id,
-            "disposition_url": urljoin(
-                settings.GET_SITE_URL(),
+            "disposition_url": make_absolute(
                 reverse(
                     "core:shift_disposition",
                     kwargs={"pk": LocalParticipation.objects.first().shift.pk},
@@ -116,6 +117,7 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
                 plaintext=notification_type.as_plaintext(notification),
             )
         except Exception as e:
+            logger.exception("Error rendering email template")
             return {
                 "email": f"Error: {e}",
             }
