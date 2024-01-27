@@ -28,6 +28,7 @@ from ephios_testplugin.notification import TestNotification
 
 logger = logging.getLogger(__name__)
 
+
 class TestIndexView(StaffRequiredMixin, TemplateView):
     template_name = "testplugin/test_index.html"
 
@@ -71,12 +72,13 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             # some common data for testing various notification types
             "uidb64": urlsafe_base64_encode(force_bytes(self.request.user.id)),
             "token": default_token_generator.make_token(self.request.user),
-            "event_id": Event.objects.first().id,
-            "participation_id": LocalParticipation.objects.first().id,
+            "event_id": Event.objects.last().id,
+            "participation_id": LocalParticipation.objects.last().id,
+            "participation_state": LocalParticipation.objects.last().state,
             "disposition_url": make_absolute(
                 reverse(
                     "core:shift_disposition",
-                    kwargs={"pk": LocalParticipation.objects.first().shift.pk},
+                    kwargs={"pk": LocalParticipation.objects.last().shift.pk},
                 ),
             ),
             "email": self.request.user.email,
@@ -99,7 +101,7 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             ),
         }
         try:
-            data["consequence_id"] = Consequence.objects.first().id
+            data["consequence_id"] = Consequence.objects.last().id
         except AttributeError:
             pass
 
@@ -107,7 +109,10 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             slug=notification_type.slug,
             user=self.request.user,
             data=data,
+            pk=Notification.objects.last().pk,  # for the "view in browser" link
         )
+        # make sure the notification cannot be saved
+        notification.save = lambda: None
         try:
             return dict(
                 notification_type=notification_type,

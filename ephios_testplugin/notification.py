@@ -30,7 +30,6 @@ class TestNotification(AbstractNotificationHandler):
         return [
             (
                 _("Look at test notification"),
-                make_absolute( reverse("testplugin:test_notifications")
-                ),
+                make_absolute(reverse("testplugin:test_notifications")),
             )
         ]
