@@ -20,6 +20,11 @@
             </a>
         </li>
         <li>
+            <a href="{% url "testplugin:test_crash" %}">
+                {% translate "A view that renders 500.html with no context" %}
+            </a>
+        </li>
+        <li>
             <a href="{% url "testplugin:test_notifications" %}">
                 {% translate "A view that lets you send notifications" %}
             </a>

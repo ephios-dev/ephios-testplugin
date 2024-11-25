@@ -9,12 +9,16 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
 from django.urls import reverse, reverse_lazy
 from django.utils import lorem_ipsum
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.views.generic import FormView, TemplateView
+from rest_framework.exceptions import PermissionDenied
+
 from ephios.core.models import Consequence, Event, LocalParticipation, Notification
 from ephios.core.services.notifications.backends import send_all_notifications
 from ephios.core.services.notifications.types import (
@@ -35,8 +39,11 @@ class TestIndexView(StaffRequiredMixin, TemplateView):
 
 class CrashView(StaffRequiredMixin, View):
     def get(self, request):
-        raise Exception("This is a test exception")
+        raise PermissionDenied("This is a test exception")
 
+class Http500View(StaffRequiredMixin, View):
+    def get(self, request):
+        return HttpResponse(get_template("500.html").render({}))
 
 class TestNotificationForm(forms.Form):
     title = forms.CharField()
