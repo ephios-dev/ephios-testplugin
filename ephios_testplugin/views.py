@@ -8,6 +8,7 @@ from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.template import Context
 from django.template.loader import get_template
@@ -17,7 +18,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.views.generic import FormView, TemplateView
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.generics import GenericAPIView
 
 from ephios.core.models import Consequence, Event, LocalParticipation, Notification
 from ephios.core.services.notifications.backends import send_all_notifications
@@ -37,7 +38,7 @@ class TestIndexView(StaffRequiredMixin, TemplateView):
     template_name = "testplugin/test_index.html"
 
 
-class CrashView(StaffRequiredMixin, View):
+class PermissionDeniedView(StaffRequiredMixin, View):
     def get(self, request):
         raise PermissionDenied("This is a test exception")
 

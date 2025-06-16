@@ -15,12 +15,12 @@
     </p>
     <ul>
         <li>
-            <a href="{% url "testplugin:test_crash" %}">
-                {% translate "A view that crashes every time" %}
+            <a href="{% url "testplugin:test_permission_denied" %}">
+                {% translate "A view that raises Permission Denied" %}
             </a>
         </li>
         <li>
-            <a href="{% url "testplugin:test_crash" %}">
+            <a href="{% url "testplugin:test_500" %}">
                 {% translate "A view that renders 500.html with no context" %}
             </a>
         </li>
