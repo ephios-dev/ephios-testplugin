@@ -1,6 +1,7 @@
 from django.dispatch import receiver
+from django.template.loader import get_template
 from django.urls import reverse
-from ephios.core.signals import footer_link, register_notification_types
+from ephios.core.signals import footer_link, register_notification_types, insert_html, HTML_HOMEPAGE_INFO
 
 from ephios_testplugin.notification import TestNotification
 
@@ -16,3 +17,11 @@ def pages_footer_links(sender, request, **kwargs):
 )
 def register_notifcation_types(sender, **kwargs):
     return [TestNotification]
+
+@receiver(
+    insert_html,
+    sender=HTML_HOMEPAGE_INFO,
+    dispatch_uid="ephios-testplugin.signals.homepage_warning",
+)
+def homepage_warning(sender, request, **kwargs):
+    return get_template("testplugin/homepage_content.html").render()
