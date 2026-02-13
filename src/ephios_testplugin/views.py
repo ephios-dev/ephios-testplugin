@@ -10,7 +10,6 @@ from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-from django.template import Context
 from django.template.loader import get_template
 from django.urls import reverse, reverse_lazy
 from django.utils import lorem_ipsum
@@ -18,7 +17,6 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.views.generic import FormView, TemplateView
-from rest_framework.generics import GenericAPIView
 
 from ephios.core.models import Consequence, Event, LocalParticipation, Notification
 from ephios.core.services.notifications.backends import send_all_notifications
@@ -42,9 +40,11 @@ class PermissionDeniedView(StaffRequiredMixin, View):
     def get(self, request):
         raise PermissionDenied("This is a test exception")
 
+
 class Http500View(StaffRequiredMixin, View):
     def get(self, request):
         return HttpResponse(get_template("500.html").render({}))
+
 
 class TestNotificationForm(forms.Form):
     title = forms.CharField()
@@ -96,17 +96,15 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
             "event_title": Event.objects.first().title,
             "content": "Remember to wear sunscreen.",
             "test_subject": lorem_ipsum.sentence(),
-            "test_body": "\n\n".join(
-                [
-                    lorem_ipsum.paragraph(),
-                    f"Now this special paragraph [contains this markdown link where we don't want the text to be broken up](https://example.com/).",
-                    lorem_ipsum.paragraph(),
-                    f"Here is a sentence with some plain link: https://example.com/text-that-should-be-broken-up-at-the-dashes",
-                    lorem_ipsum.paragraph(),
-                    f"https://example.com/somereallylongurlthatjustkeepsgoinganddefinitelydoesnotfitinonelineoftheemailtemplatewhichletsyouinvestigatehowthetemplatebehaveswithlonglinks/?foo=bar&baz=qux",
-                    lorem_ipsum.paragraph(),
-                ]
-            ),
+            "test_body": "\n\n".join([
+                lorem_ipsum.paragraph(),
+                "Now this special paragraph [contains this markdown link where we don't want the text to be broken up](https://example.com/).",
+                lorem_ipsum.paragraph(),
+                "Here is a sentence with some plain link: https://example.com/text-that-should-be-broken-up-at-the-dashes",
+                lorem_ipsum.paragraph(),
+                "https://example.com/somereallylongurlthatjustkeepsgoinganddefinitelydoesnotfitinonelineoftheemailtemplatewhichletsyouinvestigatehowthetemplatebehaveswithlonglinks/?foo=bar&baz=qux",
+                lorem_ipsum.paragraph(),
+            ]),
         }
         try:
             data["consequence_id"] = Consequence.objects.last().id
@@ -138,9 +136,7 @@ class EmailTemplateView(StaffRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         form = NotificationTypeForm(self.request.GET)
         if form.is_valid():
-            notification_type = notification_type_from_slug(
-                form.cleaned_data["notification_type"]
-            )
+            notification_type = notification_type_from_slug(form.cleaned_data["notification_type"])
             context = super().get_context_data(
                 **kwargs,
                 form=form,

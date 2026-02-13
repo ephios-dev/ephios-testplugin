@@ -3,7 +3,9 @@ from django.urls import path
 from ephios_testplugin.views import (
     EmailTemplateView,
     TestIndexView,
-    TestNotificationsView, Http500View, PermissionDeniedView,
+    TestNotificationsView,
+    Http500View,
+    PermissionDeniedView,
 )
 
 app_name = "testplugin"

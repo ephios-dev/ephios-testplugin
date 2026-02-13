@@ -1,18 +1,54 @@
-[tool.poetry]
+[project]
 name = "ephios-testplugin"
-version = "1.4.0"
+dynamic = ["version"]
 description = "A plugin to test and develop ephios"
-authors = ["Felix Rindt <felix@ephios.de>"]
+authors = [
+    {name="Felix Rindt", email="felix@ephios.de"}
+]
 license = "MIT"
+requires-python = ">=3.11,<4"
+readme = "README.md"
 
-[tool.poetry.dependencies]
-python = "^3.10"
+dependencies = [
+    # do not include ephios to avoid desync of locked versions, but make sure to include it in the test environment
+]
 
-[tool.poetry.dev-dependencies]
+[dependency-groups]
+dev = [
+    "pytest-django>=4.5.2,<5",
+    "djhtml>=3.0.6,<4",
+    "prek>=0.3.1",
+    "ruff>=0.15.0",
+    "pytest-env>=1.3.2",
+]
 
+[project.entry-points."ephios.plugins"]
+ephios-testplugin = "ephios_testplugin.apps.PluginApp"
+
+# build and versioning
 [build-system]
-requires = ["poetry>=0.3.0-dev"]
-build-backend = "poetry.masonry.api"
+requires = ["hatchling", "uv-dynamic-versioning"]
+build-backend = "hatchling.build"
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
+[tool.uv-dynamic-versioning]
+fallback-version = "0.0.0"  # used if no VCS info is available, e.g. dependabot builds
+[tool.uv]
+cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true }}]
 
-[tool.poetry.plugins."ephios.plugins"]
-"ephios-testplugin" = "ephios_testplugin.apps.PluginApp"
+# Testing, format and linting
+[tool.ruff]
+line-length = 100
+[tool.ruff.format]
+preview = true
+[tool.ruff.lint]
+preview = true
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = [
+    "src", # to find the plugin source
+    "../ephios", # to find the ephios django project and ephios "tests.settings"/conftest fixtures
+]
+testpaths = ["plugintests"]  # need a non-standard name to avoid conflicts with ephios' own tests dir
+[tool.pytest_env]
+ENV_PATH="../ephios/.env"

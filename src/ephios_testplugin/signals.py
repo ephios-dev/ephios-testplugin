@@ -1,7 +1,12 @@
 from django.dispatch import receiver
 from django.template.loader import get_template
 from django.urls import reverse
-from ephios.core.signals import footer_link, register_notification_types, insert_html, HTML_HOMEPAGE_INFO
+from ephios.core.signals import (
+    footer_link,
+    register_notification_types,
+    insert_html,
+    HTML_HOMEPAGE_INFO,
+)
 
 from ephios_testplugin.notification import TestNotification
 
@@ -17,6 +22,7 @@ def pages_footer_links(sender, request, **kwargs):
 )
 def register_notifcation_types(sender, **kwargs):
     return [TestNotification]
+
 
 @receiver(
     insert_html,
