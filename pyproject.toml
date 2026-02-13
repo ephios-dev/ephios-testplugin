@@ -3,7 +3,7 @@ name = "ephios-testplugin"
 dynamic = ["version"]
 description = "A plugin to test and develop ephios"
 authors = [
-    {name="Felix Rindt", email="felix@ephios.de"}
+    { name = "Felix Rindt", email = "felix@ephios.de" }
 ]
 license = "MIT"
 requires-python = ">=3.11,<4"
@@ -27,14 +27,15 @@ ephios-testplugin = "ephios_testplugin.apps.PluginApp"
 
 # build and versioning
 [build-system]
-requires = ["hatchling", "uv-dynamic-versioning"]
+requires = ["hatchling", "uv-dynamic-versioning", "hatch-django-locales>=0.1.4"]
 build-backend = "hatchling.build"
+[tool.hatch.build.hooks.django-locales]
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
 [tool.uv-dynamic-versioning]
 fallback-version = "0.0.0"  # used if no VCS info is available, e.g. dependabot builds
 [tool.uv]
-cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true }}]
+cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true } }]
 
 # Testing, format and linting
 [tool.ruff]
@@ -51,4 +52,4 @@ pythonpath = [
 ]
 testpaths = ["plugintests"]  # need a non-standard name to avoid conflicts with ephios' own tests dir
 [tool.pytest_env]
-ENV_PATH="../ephios/.env"
+ENV_PATH = "../ephios/.env"

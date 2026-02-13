@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-11 20:18+0100\n"
+"PO-Revision-Date: 2026-01-11 20:19+0100\n"
+"Last-Translator: Felix Rindt <felix@ephios.de>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/ephios/ephios/de/"
+">\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 3.8\n"
+
+#: src/ephios_testplugin/notification.py:10
+msgid "The testplugin sends a test notification"
+msgstr "Das Test-Plugin sendet eine Testbenachrichtigung"
+
+#: src/ephios_testplugin/notification.py:32
+msgid "Look at test notification"
+msgstr "Testbenachrichtigung ansehen"
+
+#: src/ephios_testplugin/templates/testplugin/homepage_content.html:5
+msgid "The test plugin is installed."
+msgstr "Das Test-Plugin ist installiert."
+
+#: src/ephios_testplugin/templates/testplugin/test_email_template.html:8
+msgid "Show"
+msgstr "Anzeigen"
+
+#: src/ephios_testplugin/templates/testplugin/test_index.html:9
+msgid "Test Plugin"
+msgstr "Test-Plugin"
+
+#: src/ephios_testplugin/templates/testplugin/test_index.html:11
+msgid ""
+"Congrats, you installed the test plugin. Here are some useful helpers for "
+"developing and testing ephios."
+msgstr "Herzlichen Glückwunsch, Sie haben das Test-Plugin installiert. Hier sind einige nützliche Tools für die Entwicklung und das Testen von ephios."
+
+#: src/ephios_testplugin/templates/testplugin/test_index.html:19
+msgid "A view that raises Permission Denied"
+msgstr "Ein View, das eine Permission Denied raised"
+
+#: src/ephios_testplugin/templates/testplugin/test_index.html:24
+msgid "A view that renders 500.html with no context"
+msgstr "Ein View, das 500.html ohne Kontext rendert"
+
+#: src/ephios_testplugin/templates/testplugin/test_index.html:29
+msgid "A view that lets you send notifications"
+msgstr "Ein View zum Senden von Benachrichtigungen"
+
+#: src/ephios_testplugin/templates/testplugin/test_index.html:34
+msgid "A view that lets you view the base email template"
+msgstr "Ein View zum Anzeigen der Basis-E-Mail-Vorlage"
+
+#: src/ephios_testplugin/templates/testplugin/test_notifications.html:10
+msgid "Test notifications"
+msgstr "Testbenachrichtigungen"
+
+#: src/ephios_testplugin/templates/testplugin/test_notifications.html:14
+msgid "Send test notification"
+msgstr "Sende Testbenachrichtigung"
